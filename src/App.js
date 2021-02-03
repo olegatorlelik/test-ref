@@ -1,25 +1,94 @@
-import logo from './logo.svg';
-import './App.css';
+import { Button } from "@material-ui/core";
+import React, { createRef } from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.refText = createRef();
+    this.state = {
+      value: "",
+      text: "",
+      openClose: false,
+    };
+  }
+  changeTextOne = (e) => {
+    this.setState({
+      value: e.target.value,
+    });
+  };
+  changeTextTwo = (e) => {
+    this.setState({
+      text: e.target.value,
+    });
+  };
+
+  hundleOpenClose = (e) => {
+    this.setState({
+      openClose: !this.state.openClose,
+    });
+    setTimeout(() => {
+      window.scroll({
+        left: 0,
+        top: e.current.offsetTop,
+        behavior: "smooth",
+      });
+    }, 100);
+    console.log(e);
+  };
+  render() {
+    return (
+      <div className="main">
+        <div className="App">
+          <Button
+            onClick={(e) => {
+              this.hundleOpenClose(this.refText);
+            }}
+          >
+            Click my and look
+          </Button>
+          <form className="form">
+            <div className="form__box">
+              <input
+                onChange={(e) => {
+                  this.changeTextOne(e);
+                }}
+                className="form__input"
+                type="text"
+                name="one"
+                placeholder="Заполни поле"
+              />
+              <label className="form__label" htmlFor="one">
+                Тестим REF
+              </label>
+            </div>
+            <div className="form__box">
+              <input
+                onChange={(e) => {
+                  this.changeTextTwo(e);
+                }}
+                type="text"
+                name="two"
+                placeholder="Заполни поле"
+                className="form__input"
+              />
+              <label className="form__label" htmlFor="two">
+                Тестим REF
+              </label>
+            </div>
+          </form>
+        </div>
+        <div
+          className={
+            this.state.openClose ? "testAnimation" : "testAnimation show"
+          }
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <p className="title" ref={this.refText}>{this.state.value}</p>
+          <p className="title">{this.state.text}</p>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
