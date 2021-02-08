@@ -1,6 +1,8 @@
 import { Button } from "@material-ui/core";
 import React, { createRef } from "react";
 import "./App.css";
+import { connect } from "react-redux";
+import { loginRequest } from "./actions/index";
 
 class App extends React.Component {
   constructor(props) {
@@ -22,7 +24,9 @@ class App extends React.Component {
       text: e.target.value,
     });
   };
-
+  testMethod = () => {
+    this.props.loginRequest("asd");
+  };
   hundleOpenClose = (e) => {
     this.setState({
       openClose: !this.state.openClose,
@@ -36,7 +40,9 @@ class App extends React.Component {
     }, 100);
     console.log(e);
   };
+  handleSu;
   render() {
+    console.log(this.props);
     return (
       <div className="main">
         <div className="App">
@@ -47,6 +53,7 @@ class App extends React.Component {
           >
             Click my and look
           </Button>
+          <Button onClick={this.testMethod}>asd</Button>
           <form className="form">
             <div className="form__box">
               <input
@@ -83,7 +90,9 @@ class App extends React.Component {
             this.state.openClose ? "testAnimation" : "testAnimation show"
           }
         >
-          <p className="title" ref={this.refText}>{this.state.value}</p>
+          <p className="title" ref={this.refText}>
+            {this.state.value}
+          </p>
           <p className="title">{this.state.text}</p>
         </div>
       </div>
@@ -91,4 +100,12 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {};
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginRequest: (value) => dispatch(loginRequest(value)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
